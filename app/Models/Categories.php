@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Illuminate\Support\Str;
 use voku\helper\ASCII;
 class Categories extends Model
 {
     use HasFactory;
-    use HasSlug;
     protected $guarded = [];
 
     protected $table = 'categories';
@@ -21,17 +19,44 @@ class Categories extends Model
         return $this->hasMany(Works::class);
     }
 
-    public function getRouteKeyName()
+    public static function boot()
     {
-        return 'slug'; // Tells Laravel to use 'slug' instead of 'id' in route model binding
+        parent::boot();
+
+        static::creating(function ($category) {
+            if (empty($category->slug)) {
+                $category->slug = $category->generateKannadaSlug($category->name);
+            }
+        });
+
+        static::updating(function ($category) {
+            
+                $category->slug = $category->generateKannadaSlug($category->name);
+            
+        });
     }
-    public function getSlugOptions() : SlugOptions
+
+    protected function generateKannadaSlug($title)
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom(function($model) {
-                $slug=ASCII::to_ascii($model->name);
-                return Str::slug($slug,'-'.'kn');
-            })
-            ->saveSlugsTo('slug');
+        // Convert spaces to hyphens
+        $slug = preg_replace('/\s+/', '-', trim($title));
+
+        // Remove special characters (except Kannada, numbers, and hyphens)
+        $slug = preg_replace('/[^ಅ-ಹಁ-ಃ0-9-]/u', '', $slug);
+
+        // Remove multiple hyphens
+        $slug = preg_replace('/-+/', '-', $slug);
+
+        // Ensure uniqueness
+        $originalSlug = $slug;
+        $count = 1;
+
+        while (self::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count;
+            $count++;
+        }
+
+        return $slug;
     }
+
 }
