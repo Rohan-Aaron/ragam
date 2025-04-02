@@ -127,7 +127,7 @@ class WorkController extends Controller
     public function allCategories()
     {
         $categories = Categories::all();
-        return view('works.all-categories', compact('categories'));
+        return view('User.works.all-categories', compact('categories'));
     }
 
     public function work($slug)
