@@ -28,7 +28,7 @@
         onload="this.media='all'">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css?v=1.1') }}">
 
     @yield('css')
 

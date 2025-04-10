@@ -75,8 +75,50 @@
                                 <td colspan="6" class="text-center">No works found</td>
                             </tr>
                         @endforelse
+
                     </tbody>
+
                 </table>
+                @if ($works->hasPages())
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center mt-3">
+                            {{-- First Page --}}
+                            <li class="page-item first {{ $works->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $works->url(1) }}">
+                                    <i class="icon-base bx bx-chevrons-left icon-sm"></i>
+                                </a>
+                            </li>
+
+                            {{-- Previous Page --}}
+                            <li class="page-item prev {{ $works->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $works->previousPageUrl() ?? '#' }}">
+                                    <i class="icon-base bx bx-chevron-left icon-sm"></i>
+                                </a>
+                            </li>
+
+                            {{-- Page Numbers --}}
+                            @foreach ($works->getUrlRange(1, $works->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $works->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+
+                            {{-- Next Page --}}
+                            <li class="page-item next {{ !$works->hasMorePages() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $works->nextPageUrl() ?? '#' }}">
+                                    <i class="icon-base bx bx-chevron-right icon-sm"></i>
+                                </a>
+                            </li>
+
+                            {{-- Last Page --}}
+                            <li class="page-item last {{ !$works->hasMorePages() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $works->url($works->lastPage()) }}">
+                                    <i class="icon-base bx bx-chevrons-right icon-sm"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                @endif
             </div>
         </div>
     </div>
