@@ -10,6 +10,7 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GalleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +78,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/media/{id}/update', [MediaController::class, 'update'])->name('Admin.media.update');
     Route::delete('/admin/media/{id}/destroy', [MediaController::class, 'destroy'])->name('Admin.media.destroy');
 
+    //Gallery routes
+    Route::get('/admin/gallery/index', [GalleryController::class, 'index'])->name('Admin.gallery.index');
+    Route::get('/admin/gallery/create', [GalleryController::class, 'create'])->name('Admin.gallery.create');
+    Route::post('/admin/gallery/store', [GalleryController::class, 'store'])->name('Admin.gallery.store');
+    Route::get('/admin/gallery/{id}/edit', [GalleryController::class, 'edit'])->name('Admin.gallery.edit');
+    Route::put('/admin/gallery/{id}/update', [GalleryController::class, 'update'])->name('Admin.gallery.update');
+    Route::delete('/admin/gallery/{id}/destroy', [GalleryController::class, 'delete'])->name('Admin.gallery.delete');
+
 
     //category routes
     Route::resource('/admin/categories', CategoryController::class)->names([
@@ -122,6 +131,9 @@ Route::get('/works/{category}/{work}', [WorkController::class, 'show'])->name('U
 
 //news view routes
 Route::get('/news', [NewsController::class, 'newsview'])->name('User.news.show');
+
+//gallery route
+Route::get('/gallery', [GalleryController::class, 'show'])->name('User.gallery.show');
 
 //email route
 Route::post('/email', [HomeController::class, 'email'])->name('User.email');

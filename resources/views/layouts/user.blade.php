@@ -18,7 +18,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@300;500;700&family=Raleway:wght@400;600;800&display=swap"
         rel="stylesheet">
-
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <!-- Vendor CSS Files -->
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}">
@@ -47,6 +47,7 @@
                 {{-- <li><a href="{{ url('/') }}#resume"><i class="bi bi-file-earmark-text navicon"></i> Blogs</a></li>
                 <li><a href="{{ url('/') }}#newsletter"><i class="bi bi-file-earmark-text navicon"></i> NewsLetter</a></li> --}}
                 <li><a href="{{ url('/') }}#works"><i class="bi bi-file-earmark-text navicon"></i>Works</a></li>
+                <li><a href="{{ url('/') }}#gallery"><i class="bi bi-file-earmark-text navicon"></i>Gallery</a></li>
                 {{-- <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Gallery</a></li>
                 <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Achievements</a></li> --}}
 
@@ -92,7 +93,7 @@
 
     <!-- Main JS File -->
     <script src="{{ asset('js/main.js') }}" defer></script>
-
+        @yield('js')
     <script>
         let lastScrollTop = 0;
         const header = document.getElementById("header");

@@ -510,32 +510,43 @@
         </section>
         <!-- /Resume Section -->
     @endif --}}
-    @if ($news->count() > 0)
-        <!-- Newsletter Section -->
-        <section id="newsletter" class="resume section">
-            <div class="container section-title" data-aos="fade-up">
-                <h2>News Mentions</h2>
+   
+    @if ($galleries->count() > 0)
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+          <div class="section-header">
+            <h2>Gallery</h2>
+          </div>
+          <div class="gallery-grid" >
+            @foreach ($galleries as $gallery)
+            <!-- Gallery Item 1 (Big Square) -->
+            <div class="gallery-item big-square" data-title="{{ $gallery->title }}">
+              <img
+                src="{{ asset('storage/' . $gallery->image_path) }}" alt="{{ $gallery->title }}"
+                class="img-fluid"
+              />
             </div>
-            <div class="newsletter-container justify-content-center">
-                @foreach ($news as $new)
-                    <div class="newsletter-item">
-                        <div class="newsletter-img">
-                            <img src="{{ asset('storage/' . $new->thumbnail) }}" alt="{{ $new->title }}">
-                        </div>
-                        <div class="newsletter-content">
-                            <div class="newsletter-title">{{ $new->title }}</div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="d-flex justify-content-center">
-                <a href="{{ route('User.news.show') }}" class="view-more">View More</a>
-            </div>
-
-        </section>
+            @endforeach
+          </div>
+           <!-- Add View All button -->
+        <div class="view-all-container">
+            <a href="{{ route('User.gallery.show') }}" class="view-all-button">
+                View All Photos
+                <span class="arrow">→</span>
+            </a>
+        </div>
+        </div>
+    </section>
     @endif
+        <!-- Add this right before the closing </section> tag -->
+        <div class="fullscreen-overlay" id="fullscreenOverlay">
+          <span class="close-overlay" id="closeOverlay">&times;</span>
+          <img src="" alt="Zoomed Image" class="zoomed-image" id="zoomedImage" />
+        </div>
+      
 
+
+    
     <!-- Contact Section -->
 
     <section id="contact" class="contact section dark-background">
@@ -654,98 +665,6 @@
 
 @section('js')
     <script>
-        new Swiper('.categories-slider', {
-            slidesPerView: 2,
-            spaceBetween: 15,
-            loop: {{ $categories->count() > 3 ? 'true' : 'false' }},
-            autoplay: {
-                delay: 3000,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            breakpoints: {
-                576: {
-                    slidesPerView: 3
-                },
-                768: {
-                    slidesPerView: 4,
-                    spaceBetween: 20
-                },
-                992: {
-                    slidesPerView: 5,
-                    spaceBetween: 25
-                }
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-    // Close button functionality
-    document.querySelectorAll('.close-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.target.closest('.message-box').style.display = 'none';
-        });
-    });
-
-    // Form submission handling
-    const forms = document.querySelectorAll('.php-email-form');
     
-    forms.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            
-            showMessage('loading');
-            
-            fetch(this.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    showMessage('sent-message', data.message);
-                    form.reset();
-                } else {
-                    showMessage('error-message', data.message);
-                }
-            })
-            .catch(error => {
-                showMessage('error-message', 'An error occurred. Please try again.');
-            });
-        });
-    });
-
-    function showMessage(type, message = '') {
-        const container = document.querySelector('.message-container');
-        const messageBox = container.querySelector(`.${type}`);
-        
-        // Hide all messages
-        container.querySelectorAll('.message-box').forEach(box => {
-            box.style.display = 'none';
-        });
-        
-        // Set message content if provided
-        if(message) {
-            messageBox.querySelector('span').textContent = message;
-        }
-        
-        // Show the requested message
-        messageBox.style.display = 'flex';
-        
-        // Auto-hide success messages after 5 seconds
-        if(type === 'sent-message') {
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 5000);
-        }
-    }
-});
     </script>
 @endsection

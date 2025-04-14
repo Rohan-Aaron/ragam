@@ -105,8 +105,14 @@
                         </a>
                     </li>
                     <!--/Media-->
-                    
-                    
+                    <!--Gallery-->
+                    <li class="menu-item {{ request()->routeIs('Admin.gallery.index') ? 'active' : '' }}">
+                        <a href="{{ route('Admin.gallery.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-image"></i>
+                            <div data-i18n="Analytics">Gallery</div>
+                        </a>
+                    </li>
+                    <!--Gallery-->
                     <li class="menu-item ">
                         <a href="#" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-briefcase"></i>

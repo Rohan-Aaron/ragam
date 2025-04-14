@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\gallery;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\media_mentions;
@@ -27,7 +28,9 @@ class HomeController extends Controller
         $books = Book::whereNotNull('image')->latest()->take(3)->get();
 
         $categories = Categories::get()->take(4);
-        return view('welcome', compact('blogs', 'news','books','categories'));
+
+        $galleries=gallery::latest()->take(3)->get();
+        return view('welcome', compact('blogs', 'news','books','categories','galleries'));
     }
 
     public function email(Request $request)
